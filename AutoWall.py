@@ -7,9 +7,10 @@ def setRandomWallPaper():
     available = getAvailableWallPapers()
     if len(available)>0:
         randWallpaper = available[random.randint(0,len(available)-1)]
-        os.rename("/home/gtm/Desktop/Wallpapers/{0}".format(randWallpaper), "/home/gtm/Desktop/Wallpapers/wp.jpg")
+        os.rename("/home/gtm/Desktop/Wallpapers/{0}".format(randWallpaper), "/home/{username}/Desktop/Wallpapers/wp.jpg")
 
-    os.system("gsettings set org.gnome.desktop.background picture-uri-dark 'file:///home/gtm/Desktop/Wallpapers/wp.jpg'")
+    #for ubuntu
+    os.system("gsettings set org.gnome.desktop.background picture-uri-dark 'file:///home/{username}/Desktop/Wallpapers/wp.jpg'")
 
 def checkWpExists(i):
     if os.path.isfile("/home/gtm/Desktop/Wallpapers/{0}.jpg".format(i)):
@@ -19,7 +20,7 @@ def checkWpExists(i):
 
 def getAvailableWallPapers():
     wallpapers = []
-    for file in os.listdir("/home/gtm/Desktop/Wallpapers"):
+    for file in os.listdir("/home/{username}/Desktop/Wallpapers"):
         if file.endswith(".jpg") and file.startswith("wp")==False:
             wallpapers.append(file)
     return wallpapers
@@ -34,7 +35,7 @@ def downloadWallPapers():
         for i in range (1,maxSavedWallpapers+1):
             if checkWpExists(i)==False:
                 r1 = requests.get("https://source.unsplash.com/random/1920x1080/?mountains,code")   #can also use like ?city,night (comma-seperated)
-                with open("/home/gtm/Desktop/Wallpapers/{0}.jpg".format(i), 'wb') as f:
+                with open("/home/{username}/Desktop/Wallpapers/{0}.jpg".format(i), 'wb') as f:
                     f.write(r1.content)
         
         if changeAfterDownloading:
